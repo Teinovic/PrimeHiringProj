@@ -14,8 +14,6 @@ const Candidates = (props) => {
     useEffect( () => {
         props.fetchAllCandidates()
     },  [props.currentId, forceRerender])
-
-    console.log(props.candidateList)
     
     const dataSource = Object.entries(props.candidateList).flat().filter(element => isNaN(element))
 

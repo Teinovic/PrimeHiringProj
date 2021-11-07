@@ -27,8 +27,6 @@ const CandidateForm = (props) => {
     const [values, setValues] = useState(initialFieldValues)
     let today = new Date()
 
-    console.log(values, 'hmmmm')
-
     
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -71,15 +69,13 @@ const CandidateForm = (props) => {
     }
 
     const handleSubmit = e => {
-        console.log(props.currentId)
         e.preventDefault()
-        if (isNaN(parseInt(values.mobile))) {Modal.error({content: 'Mobile must be a number.',})}
-        if (isNaN(parseInt(values.pricePerHour))) {Modal.error({content: 'Price per hour must be a number.',})}
-        if (isNaN(parseInt(values.yearsOfExperience)) || values.yearsOfExperience.length > 2) {Modal.error({content: 'Years of experience must be a at most a double digit number.',})}
+        if (values.mobile && isNaN(parseInt(values.mobile))) {Modal.error({content: 'Mobile must be a number.',})}
+        if (values.pricePerHour && isNaN(parseInt(values.pricePerHour))) {Modal.error({content: 'Price per hour must be a number.',})}
+        if (values.yearsOfExperience && isNaN(parseInt(values.yearsOfExperience)) || values.yearsOfExperience.length > 2) {Modal.error({content: 'Years of experience must be a at most a double digit number.',})}
         if (!values.fullName || !values.mobile || !values.location || !values.profilePicture || !values.pricePerHour || !values.technology || !values.yearsOfExperience ||
             !values.nativeLanguage) {Modal.error({content: 'Must fill out all the required fields.',})}
         else if (props.currentId === 0 || props.currentId.id === 0) {
-            console.log('Am i executed?')
             props.createCandidate(values, () => 
                 {Modal.success({
                     content: 'Successfully added a candidate!',

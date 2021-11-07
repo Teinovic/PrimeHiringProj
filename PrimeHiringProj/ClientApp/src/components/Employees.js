@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as apiActions from '../actions/candidate'
-import { Table, Space, Modal } from 'antd'
+import { Table } from 'antd'
 import 'antd/dist/antd.css'
 import { updateCurrentId } from '../actions/currentId'
 
 
 const Employees = (props) => {
 
-    const [forceRerender, setForceRerender] = useState(0)
-
     useEffect( () => {
         props.fetchAllCandidates()
-    },  [props.currentId, forceRerender])
+    },  [props.currentId])
 
     const dataSource = Object.entries(props.candidateList).flat().filter(element => isNaN(element) && element.hired === 'yes' && element.dateHired && element.dateDeparture)
 
