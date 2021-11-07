@@ -14,8 +14,7 @@ const Employees = (props) => {
         props.fetchAllCandidates()
     },  [props.currentId, forceRerender])
 
-    const dataSource = Object.entries(props.candidateList).flat().filter(element => isNaN(element) && element.hired === 'yes')
-    console.log(dataSource, 'pfff')
+    const dataSource = Object.entries(props.candidateList).flat().filter(element => isNaN(element) && element.hired === 'yes' && element.dateHired && element.dateDeparture)
 
     const columns = [
         {

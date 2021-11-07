@@ -31,7 +31,6 @@ const CandidateForm = (props) => {
 
     
     const handleInputChange = e => {
-        console.log(e, 'wuuut')
         const { name, value } = e.target
         const fieldValue = { [name]: value }
         setValues({
@@ -317,11 +316,6 @@ const CandidateForm = (props) => {
                     <Radio value="Serbian" name="nativeLanguage">Serbian</Radio>
                     <Radio value="Bulgarian" name="nativeLanguage">Bulgarian</Radio>
                 </Radio.Group>
-                    
-                    
-                    {/* name="nativeLanguage"
-                    value={values.nativeLanguage}
-                    onChange={onChangeCascader} */}
             </Form.Item>
             <Form.Item
                 label="LinkedIn"
@@ -376,11 +370,7 @@ const CandidateForm = (props) => {
                     },
                 ]}
             >
-                {/* <Input 
-                    name="dateHired"
-                    value={values.dateHired}
-                    onChange={handleInputChange}
-                /> */}                  
+              
                 <Space direction="vertical">
                     <DatePicker 
                         onChange={handleInputChangeStartingDate}

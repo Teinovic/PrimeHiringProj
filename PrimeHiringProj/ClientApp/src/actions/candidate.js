@@ -25,12 +25,12 @@ export const fetchAll = () => dispatch => {
         })
         .catch(err => err.message === 'Network Error' ? 
                 Modal.error({content: `Error type: ${err.message}. The server appears to be down. Try again later.`}) : 
-                Modal.error({content: `Error type: ${err.message} Please fill out all the required fields.`})
+                Modal.error({content: `Error type: ${err.message} There is an unknown error.`})
         )
 }
 
-export const create = (data, onSuccess) => dispatch => {
-    data = formatData(data)
+export const create = (data, onSuccess) => async dispatch => {
+    data = await formatData(data)
     api.candidate().create(data).then(res => {
         dispatch({
             type: ACTION_TYPES.CREATE,
@@ -40,7 +40,7 @@ export const create = (data, onSuccess) => dispatch => {
     })
     .catch(err => err.message === 'Network Error' ? 
                 Modal.error({content: `Error type: ${err.message}. The server appears to be down. Try again later.`}) : 
-                Modal.error({content: `Error type: ${err.message} Please fill out all the required fields.`})
+                Modal.error({content: `Error type: ${err.message} There is an unknown error with the request. Please provide the input again.`})
     )
 }
 
