@@ -31,6 +31,7 @@ export const fetchAll = () => dispatch => {
 
 export const create = (data, onSuccess) => async dispatch => {
     data = await formatData(data)
+    console.log(data, 'aaaa')
     api.candidate().create(data).then(res => {
         dispatch({
             type: ACTION_TYPES.CREATE,
