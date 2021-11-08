@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import * as apiActions from '../actions/candidate'
 import { Table, Space, Modal } from 'antd'
@@ -10,6 +10,16 @@ const Candidates = (props) => {
   
     const [forceRerender, setForceRerender] = useState(0)
     const { confirm } = Modal
+    const myRef = useRef(null)
+    const scrollIntoView = () => {
+      myRef.current.scrollIntoView({behavior: 'smooth'});
+    }
+    
+    function updateFunc(arg) {
+      scrollIntoView();
+      props.updateCurrentId(arg);
+    }
+
     
     useEffect( () => {
         props.fetchAllCandidates()
@@ -40,8 +50,6 @@ const Candidates = (props) => {
       });
     }
       
-    
-
     const columns = [
         {
           title: 'Full Name',
@@ -113,7 +121,7 @@ const Candidates = (props) => {
           render: (text, record) => { 
             return (
               <Space size="middle">
-                <a onClick={() => {props.updateCurrentId(record.id)}}>Update</a>
+                <a onClick={() => { updateFunc(record.id) }} >Update</a>
                 <a onClick={() => {onDelete(record.id)}}>Delete</a>
               </Space>
           
@@ -125,7 +133,7 @@ const Candidates = (props) => {
     return (
       <>
         <Table dataSource={dataSource} columns={columns} />
-        <CandidateForm />
+        <CandidateForm refProp={myRef}/>
       </>
     )
 }

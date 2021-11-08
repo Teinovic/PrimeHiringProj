@@ -22,11 +22,11 @@ const initialFieldValues = {
     hired: ''
 }
 
-const CandidateForm = (props) => {
+const CandidateForm = props => {
     const [form] = Form.useForm();
     const [values, setValues] = useState(initialFieldValues)
     let today = new Date()
-
+    console.log(props)
     
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -117,6 +117,9 @@ const CandidateForm = (props) => {
 
 
     return (
+        <>
+        <div ref={props.refProp}></div>
+         {/* had to add the <div> DOM element for the scroll to work when the update button is clicked, doesn't work with ant design <Form> component */}
         <Form
             form={form}
             name="basic"
@@ -147,6 +150,7 @@ const CandidateForm = (props) => {
                 ]}
             >
                 <Input
+            
                     name="fullName"
                     value={values.fullName}
                     onChange={handleInputChange}
@@ -412,8 +416,11 @@ const CandidateForm = (props) => {
                 </Button>
             </Form.Item>
         </Form>
+        </>
         );
 }
+
+
 
 const mapStateToProps = state => ({
     candidateList: state.candidateList.list,
