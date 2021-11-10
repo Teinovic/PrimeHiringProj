@@ -72,7 +72,7 @@ const CandidateForm = props => {
         e.preventDefault()
         if (values.mobile && isNaN(parseInt(values.mobile))) {Modal.error({content: 'Mobile must be a number.',})}
         if (values.pricePerHour && isNaN(parseInt(values.pricePerHour))) {Modal.error({content: 'Price per hour must be a number.',})}
-        if (values.yearsOfExperience && isNaN(parseInt(values.yearsOfExperience)) || values.yearsOfExperience.length > 2) {Modal.error({content: 'Years of experience must be a at most a double digit number.',})}
+        if (values.yearsOfExperience && isNaN(parseInt(values.yearsOfExperience)) && values.yearsOfExperience.length > 2) {Modal.error({content: 'Years of experience must be a at most a double digit number.',})}
         if (!values.fullName || !values.mobile || !values.location || !values.profilePicture || !values.pricePerHour || !values.technology || !values.yearsOfExperience ||
             !values.nativeLanguage) {Modal.error({content: 'Must fill out all the required fields.',})}
         else if (props.currentId === 0 || props.currentId.id === 0) {
@@ -147,6 +147,10 @@ const CandidateForm = props => {
                     max: 100,
                     message: 'Too many characters used!',
                     },
+                    {
+                    pattern: /^[a-zA-Z0-9\s]+$/,
+                    message: 'Name can only include letters, numbers and whitespaces.',
+                    },
                 ]}
             >
                 <Input
@@ -166,7 +170,11 @@ const CandidateForm = props => {
                     },
                     {
                     max: 100,
-                    message: 'Too many characters used!',
+                    message: 'Too many characters used.',
+                    },
+                    {
+                    pattern: /^[0-9]*$/,
+                    message: 'The mobile phone can contain only numbers.'
                     },
                 ]}
             >
@@ -188,6 +196,10 @@ const CandidateForm = props => {
                     max: 100,
                     message: 'Too many characters used!',
                     },
+                    {
+                    pattern: /^[a-zA-Z0-9\s,]+$/,
+                    message: 'Location can only include letters, numbers, commas and whitespaces.',
+                    },
                 ]}
             >
                 <Input 
@@ -208,6 +220,10 @@ const CandidateForm = props => {
                     max: 100,
                     message: 'Too many characters used!',
                     },
+                    {
+                    type: "url",
+                    message: "This field must be a valid url."
+                    }
                 ]}
             >
                 <Input 
@@ -225,8 +241,12 @@ const CandidateForm = props => {
                     message: 'Please input the Price Per Hour!',
                     },
                     {
-                    max: 100,
-                    message: 'Too many characters used!',
+                    max: 2,
+                    message: 'No more than two digits!',
+                    },
+                    {
+                    pattern: /^[0-9]*$/,
+                    message: 'The price can contain only numbers.'
                     },
                 ]}
             >
@@ -288,8 +308,13 @@ const CandidateForm = props => {
                     message: 'Please input your years of experience.',
                     },
                     {
-                    max: 100,
-                    message: 'Too many characters used!',
+                    type: 'integer',
+                    max: 2,
+                    message: 'No more than two digits!',
+                    },
+                    {
+                    pattern: /^[0-9]*$/,
+                    message: 'Years of experience can contain only numbers.'
                     },
                 ]}
             >
@@ -307,10 +332,6 @@ const CandidateForm = props => {
                     required: true,
                     message: 'Please input your Native Language.',
                     },
-                    // {
-                    // max: 100,
-                    // message: 'Too many characters used!',
-                    // },
                 ]}
             >
                 <Radio.Group name="nativeLanguage" onChange={handleInputChange}>
@@ -331,6 +352,10 @@ const CandidateForm = props => {
                     max: 100,
                     message: 'Too many characters used!',
                     },
+                    {
+                    type: "url",
+                    message: "This field must be a valid url."
+                    }
                 ]}
             >
                 <Input 
