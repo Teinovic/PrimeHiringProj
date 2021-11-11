@@ -5,24 +5,39 @@ export default function HireModal({selectedRows}) {
     const [form] = Form.useForm()
     const [isModalVisible, setIsModalVisible] = useState(false)
     let today = new Date()
+    const [values, setValues] = useState({})
+    console.log(values)
 
-    // const handleInputChangeStartingDate = e => {
-    //     const dateToString =  e._d.toString()
-        
-    //     setValues({
-    //         ...values,
-    //         ...{ ["dateHired"]: dateToString }
-    //     })
-    // }
+    const handleInputChange = e => {
+        console.log(e.target)
+        const { name, value } = e.target
+        const fieldValue = { [name]: value }
+        setValues({
+            ...values,
+            ...fieldValue
+        })
+    }
+    const handleInputChangeStartingDate = (date, dateString, fullName) => {
+        // const dateToString =  e._d.toString()
+        // console.log(e)
+        console.log(date, 'aaaaa', dateString);
+        console.log(fullName);
+        setValues({
+            ...values,
+            ...{ [fullName]: dateString }
+        })
+    }
 
-    // const handleInputChangeEndDate = e => {
-    //     const dateToString =  e._d.toString()
-        
-    //     setValues({
-    //         ...values,
-    //         ...{ ["dateDeparture"]: dateToString }
-    //     })
-    // }
+    const handleInputChangeEndDate = (date, dateString, fullName) => {
+        // const dateToString =  e._d.toString()
+        // console.log(e)
+        console.log(date, dateString);
+        console.log(fullName);
+        setValues({
+            ...values,
+            ...{ [fullName]: dateString }
+        })
+    }
 
     const showModal = () => setIsModalVisible(true)
 
@@ -80,8 +95,10 @@ export default function HireModal({selectedRows}) {
                             },
                         ]}
                     >
-                        <Radio.Group name="hired" 
-                            // onChange={handleInputChange}
+                        <Radio.Group 
+                            name={`hired ${element.fullName}`}
+                            value={element.fullName} 
+                            onChange={handleInputChange}
                         >
                             <Radio value="yes" name="hired">Yes</Radio>
                             <Radio value="no" name="hired">No</Radio>
@@ -102,8 +119,8 @@ export default function HireModal({selectedRows}) {
                         ]}
                     >              
                         <Space direction="vertical">
-                            <DatePicker 
-                                // onChange={handleInputChangeStartingDate}
+                            <DatePicker
+                                onChange={(date, dateString) => handleInputChangeStartingDate(date, dateString, element.fullName)}
                                 disabledDate={d => !d || d.isBefore(today)}
                             />
                         </Space>
@@ -123,8 +140,8 @@ export default function HireModal({selectedRows}) {
                         ]}
                     >
                         <Space direction="vertical">
-                            <DatePicker 
-                                // onChange={handleInputChangeEndDate}
+                            <DatePicker
+                                onChange={(date, dateString) => handleInputChangeEndDate(date, dateString, element.fullName)}
                                 disabledDate={d => !d || d.isBefore(today)}
                             />
                         </Space>
