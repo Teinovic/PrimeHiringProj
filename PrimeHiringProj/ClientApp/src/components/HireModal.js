@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Modal, Button, Form, Input, Radio, Space, DatePicker } from 'antd'
+import { Modal, Button, Form, Space, DatePicker } from 'antd'
 
 export default function HireModal({selectedRows}) {
     const [form] = Form.useForm()
@@ -7,19 +7,10 @@ export default function HireModal({selectedRows}) {
     let today = new Date()
     const [values, setValues] = useState({})
     console.log(values)
+    const { RangePicker } = DatePicker
 
-    const handleInputChange = e => {
-        console.log(e.target)
-        const { name, value } = e.target
-        const fieldValue = { [name]: value }
-        setValues({
-            ...values,
-            ...fieldValue
-        })
-    }
-    const handleInputChangeStartingDate = (date, dateString, fullName) => {
-        // const dateToString =  e._d.toString()
-        // console.log(e)
+
+    const handleInputChangeRange = (date, dateString, fullName) => {
         console.log(date, 'aaaaa', dateString);
         console.log(fullName);
         setValues({
@@ -28,16 +19,6 @@ export default function HireModal({selectedRows}) {
         })
     }
 
-    const handleInputChangeEndDate = (date, dateString, fullName) => {
-        // const dateToString =  e._d.toString()
-        // console.log(e)
-        console.log(date, dateString);
-        console.log(fullName);
-        setValues({
-            ...values,
-            ...{ [fullName]: dateString }
-        })
-    }
 
     const showModal = () => setIsModalVisible(true)
 
@@ -82,35 +63,12 @@ export default function HireModal({selectedRows}) {
                 <>  
                     <h3>{element.fullName}</h3>
                     <Form.Item
-                        label="Hired"
-                        name="hired"
-                        rules={[
-                            {
-                            required: false,
-                            message: "Please input the candidate's status.",
-                            },
-                            {
-                            max: 100,
-                            message: 'Too many characters used!',
-                            },
-                        ]}
-                    >
-                        <Radio.Group 
-                            name={`hired ${element.fullName}`}
-                            value={element.fullName} 
-                            onChange={handleInputChange}
-                        >
-                            <Radio value="yes" name="hired">Yes</Radio>
-                            <Radio value="no" name="hired">No</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        label="Date of Hire"
+                        label="Time range of hire"
                         name="dateHired"
                         rules={[
                             {
                             required: false,
-                            message: "Please input the date of hire.",
+                            message: "Please input the time range of hire.",
                             },
                             {
                             max: 100,
@@ -119,13 +77,13 @@ export default function HireModal({selectedRows}) {
                         ]}
                     >              
                         <Space direction="vertical">
-                            <DatePicker
-                                onChange={(date, dateString) => handleInputChangeStartingDate(date, dateString, element.fullName)}
+                            <RangePicker
+                                onChange={(date, dateString) => handleInputChangeRange(date, dateString, element.fullName)}
                                 disabledDate={d => !d || d.isBefore(today)}
                             />
                         </Space>
                     </Form.Item>
-                    <Form.Item
+                    {/* <Form.Item
                         label="Date of Departure"
                         name="dateDeparture"
                         rules={[
@@ -145,7 +103,7 @@ export default function HireModal({selectedRows}) {
                                 disabledDate={d => !d || d.isBefore(today)}
                             />
                         </Space>
-                    </Form.Item>
+                    </Form.Item> */}
                 </>
                 )}
                 </Form>
