@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Modal, Button, Form, Space, DatePicker } from 'antd'
+import { connect } from 'react-redux'
+import { employ } from '../actions/employ'
 
-export default function HireModal({selectedRows}) {
+function HireModal({selectedRows, ...restProps}) {
     const [form] = Form.useForm()
     const [isModalVisible, setIsModalVisible] = useState(false)
     let today = new Date()
@@ -28,6 +30,7 @@ export default function HireModal({selectedRows}) {
     }
 
     const handleOk = () => {
+        restProps.employ(values)
         Modal.success({
             content: 'Successfully employed the candidate(s).'
           })
@@ -45,9 +48,9 @@ export default function HireModal({selectedRows}) {
             <Button type="primary" onClick={showModal}>
                 Hire selected
             </Button>
-
+            <Space />
             <Modal
-                title="Basic Modal"
+                title="Set the date ranges of future employment"
                 visible={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
@@ -94,3 +97,15 @@ export default function HireModal({selectedRows}) {
         </>
     )
 }
+
+const mapStateToProps = state => ({
+    candidateList: state.candidateList.list,
+    currentId: state.currentId,
+    employees: state.employees
+})
+
+const mapActionToProps = {
+    employ
+}
+
+export default connect(mapStateToProps, mapActionToProps)((HireModal));

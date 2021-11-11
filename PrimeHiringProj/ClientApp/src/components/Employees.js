@@ -7,15 +7,23 @@ import { updateCurrentId } from '../actions/currentId'
 
 
 
+
 const Employees = (props) => {
+    
+    const dataSourceImproved = Object.entries(props.employees)
+    const dataSourceImproved1 = []
+    const dataSourceImproved2 = []
+    for (let element of dataSourceImproved) {dataSourceImproved1.push(element.flat())}
+    for (let element of dataSourceImproved1) {
+        dataSourceImproved2.push({
+            fullName: element[0],
+            dateHired: element[1],
+            dateDeparture: element[2]
+        })
+    }
+    console.log(dataSourceImproved2, 'waaaaa')
 
-
-    useEffect( () => {
-        props.fetchAllCandidates()
-    },  [props.currentId])
-
-    const dataSource = Object.entries(props.candidateList).flat().filter(element => isNaN(element) && element.hired === 'yes' && element.dateHired && element.dateDeparture)
-
+    
     const columns = [
         {
             title: 'Full Name',
@@ -36,14 +44,15 @@ const Employees = (props) => {
 
     return (
         <>
-          <Table dataSource={dataSource} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
+          <Table dataSource={dataSourceImproved2} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
         </>
     )
 } 
 
 const mapStateToProps = state => ({
     candidateList: state.candidateList.list,
-    currentId: state.currentId
+    currentId: state.currentId,
+    employees: state.employees
 })
 
 const mapActionToProps = {
