@@ -6,7 +6,9 @@ import 'antd/dist/antd.css'
 import { updateCurrentId } from '../actions/currentId'
 
 
+
 const Employees = (props) => {
+
 
     useEffect( () => {
         props.fetchAllCandidates()

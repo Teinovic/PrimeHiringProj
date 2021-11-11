@@ -5,6 +5,8 @@ import { Table, Space, Modal } from 'antd'
 import 'antd/dist/antd.css'
 import CandidateForm from './CandidateForm'
 import { updateCurrentId } from '../actions/currentId'
+import HireModal from './HireModal'
+
 
 const Candidates = (props) => {
   
@@ -14,7 +16,22 @@ const Candidates = (props) => {
     const scrollIntoView = () => {
       myRef.current.scrollIntoView({behavior: 'smooth'});
     }
+    const [selectedRowsProp, setSelectedRowsProp] = useState([])
     
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        setSelectedRowsProp(selectedRows)
+      },
+      getCheckboxProps: (record) => (
+        {
+          disabled: record.fullName === 'Disabled User',
+          // Column configuration not to be checked
+          name: record.fullName
+        }
+        )
+    };
+
     function updateFunc(arg) {
       scrollIntoView();
       props.updateCurrentId(arg);
@@ -26,6 +43,11 @@ const Candidates = (props) => {
     },  [props.currentId, forceRerender])
     
     const dataSource = Object.entries(props.candidateList).flat().filter(element => isNaN(element))
+    
+    const dataSourceEdited = []
+    for (let element of dataSource) {
+      dataSourceEdited.push( {...element, key: element.id.toString()})
+    }
 
     function onDelete(id) {
        confirm({
@@ -82,6 +104,7 @@ const Candidates = (props) => {
           key: 'technology',
         },
         {
+          innerHeight: '5rem',
           title: 'Description',
           dataIndex: 'description',
           key: 'description',
@@ -121,7 +144,7 @@ const Candidates = (props) => {
           render: (text, record) => { 
             return (
               <Space size="middle">
-                <a onClick={() => { updateFunc(record.id) }} >Update</a>
+                <a onClick={() => {updateFunc(record.id) }} >Update</a>
                 <a onClick={() => {onDelete(record.id)}}>Delete</a>
               </Space>
           
@@ -132,7 +155,15 @@ const Candidates = (props) => {
 
     return (
       <>
-        <Table dataSource={dataSource} columns={columns} />
+        <Table 
+          rowSelection={{
+            type: 'checkbox',
+            ...rowSelection,
+          }}
+          dataSource={dataSourceEdited} 
+          columns={columns}
+        />
+        <HireModal selectedRows={selectedRowsProp}/>
         <CandidateForm refProp={myRef}/>
       </>
     )
