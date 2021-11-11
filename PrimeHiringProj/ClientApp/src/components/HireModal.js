@@ -28,7 +28,10 @@ export default function HireModal({selectedRows}) {
     }
 
     const handleOk = () => {
-        form.submit()
+        Modal.success({
+            content: 'Successfully employed the candidate(s).'
+          })
+        setIsModalVisible(false)
     }
 
     const onFinish = () => {
@@ -60,51 +63,30 @@ export default function HireModal({selectedRows}) {
             
                 <Form labelCol={{ xs: { span: 6 } }} wrapperCol={{ xs: { span: 12 } }} form={form} onFinish={onFinish} scrollToFirstError>
                 {selectedRows.map((element, key) =>
-                <>  
-                    <h3>{element.fullName}</h3>
-                    <Form.Item
-                        label="Time range of hire"
-                        name="dateHired"
-                        rules={[
-                            {
-                            required: false,
-                            message: "Please input the time range of hire.",
-                            },
-                            {
-                            max: 100,
-                            message: 'Too many characters used!',
-                            },
-                        ]}
-                    >              
-                        <Space direction="vertical">
-                            <RangePicker
-                                onChange={(date, dateString) => handleInputChangeRange(date, dateString, element.fullName)}
-                                disabledDate={d => !d || d.isBefore(today)}
-                            />
-                        </Space>
-                    </Form.Item>
-                    {/* <Form.Item
-                        label="Date of Departure"
-                        name="dateDeparture"
-                        rules={[
-                            {
-                            required: false,
-                            message: "Please input the date of departure.",
-                            },
-                            {
-                            max: 100,
-                            message: 'Too many characters used!',
-                            },
-                        ]}
-                    >
-                        <Space direction="vertical">
-                            <DatePicker
-                                onChange={(date, dateString) => handleInputChangeEndDate(date, dateString, element.fullName)}
-                                disabledDate={d => !d || d.isBefore(today)}
-                            />
-                        </Space>
-                    </Form.Item> */}
-                </>
+                    <>  
+                        <h3>{element.fullName}</h3>
+                        <Form.Item
+                            label="Timerange of hire"
+                            name="dateHired"
+                            rules={[
+                                {
+                                required: false,
+                                message: "Please input the time range of hire.",
+                                },
+                                {
+                                max: 100,
+                                message: 'Too many characters used!',
+                                },
+                            ]}
+                        >              
+                            <Space direction="vertical">
+                                <RangePicker
+                                    onChange={(date, dateString) => handleInputChangeRange(date, dateString, element.fullName)}
+                                    disabledDate={d => !d || d.isBefore(today)}
+                                />
+                            </Space>
+                        </Form.Item>
+                    </>
                 )}
                 </Form>
             
