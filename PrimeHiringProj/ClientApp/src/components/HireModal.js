@@ -7,18 +7,19 @@ function HireModal({selectedRows, ...restProps}) {
     const [form] = Form.useForm()
     const [isModalVisible, setIsModalVisible] = useState(false)
     let today = new Date()
-    const [values, setValues] = useState({})
-    console.log(values)
+    const [values, setValues] = useState([])
+    console.log(values, 'PLSWORK')
     const { RangePicker } = DatePicker
+    console.log(restProps, 'propsies')
 
 
     const handleInputChangeRange = (date, dateString, fullName) => {
         console.log(date, 'aaaaa', dateString);
         console.log(fullName);
-        setValues({
+        setValues([
             ...values,
-            ...{ [fullName]: dateString }
-        })
+            ...[[fullName, ...dateString]]
+        ])
     }
 
 
@@ -29,8 +30,11 @@ function HireModal({selectedRows, ...restProps}) {
         form.resetFields()
     }
 
+
     const handleOk = () => {
-        restProps.employ(values)
+        let values1 = [values]
+        // let employeesData = restProps.employees.push(values)
+        restProps.employ(restProps.employees, values1)
         Modal.success({
             content: 'Successfully employed the candidate(s).'
           })

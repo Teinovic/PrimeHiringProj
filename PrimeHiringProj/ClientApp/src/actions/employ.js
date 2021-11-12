@@ -1,6 +1,8 @@
-export const employ = employData => dispatch => {
-    dispatch({
+export const employ = (employData, prevEmployData) => {
+    const newEmployData = [...prevEmployData, ...employData]
+    
+    return {
         type: 'EMPLOY',
-        payload: employData
-    })
+        payload: newEmployData
+    }
 }

@@ -1,29 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import * as apiActions from '../actions/candidate'
 import { Table } from 'antd'
 import 'antd/dist/antd.css'
-import { updateCurrentId } from '../actions/currentId'
+
 
 
 
 
 const Employees = (props) => {
-    
-    const dataSourceImproved = Object.entries(props.employees)
-    const dataSourceImproved1 = []
-    const dataSourceImproved2 = []
-    for (let element of dataSourceImproved) {dataSourceImproved1.push(element.flat())}
-    for (let element of dataSourceImproved1) {
-        dataSourceImproved2.push({
-            fullName: element[0],
-            dateHired: element[1],
-            dateDeparture: element[2]
-        })
-    }
-    console.log(dataSourceImproved2, 'waaaaa')
+    for (let array in props.employees) {
 
-    
+    }
+
+    console.log(props.employees)
     const columns = [
         {
             title: 'Full Name',
@@ -44,20 +33,32 @@ const Employees = (props) => {
 
     return (
         <>
-          <Table dataSource={dataSourceImproved2} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
+            {props.employees.map((item) => {
+                let obj = []
+                for (let i of item) {
+                    console.log(i)
+                    obj.push({
+                        fullName: i[0],
+                        dateHired: i[1],
+                        dateDeparture: i[2]
+                    })
+                }
+                console.log(obj)
+                return <Table dataSource={obj} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
+            })}
+          {/* <Table dataSource={[{
+              fullName: 'Brrr',
+              dateHired: '1',
+              dateDeparture: '1'
+        }]} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/> */}
         </>
     )
 } 
 
-const mapStateToProps = state => ({
-    candidateList: state.candidateList.list,
-    currentId: state.currentId,
-    employees: state.employees
-})
-
-const mapActionToProps = {
-    fetchAllCandidates: apiActions.fetchAll,
-    updateCurrentId
+const mapStateToProps = state => {
+    return {employees: state.employees}
 }
 
-export default connect(mapStateToProps, mapActionToProps)((Employees));
+
+
+export default connect(mapStateToProps)((Employees));

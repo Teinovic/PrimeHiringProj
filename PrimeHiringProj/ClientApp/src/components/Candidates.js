@@ -124,20 +124,20 @@ const Candidates = (props) => {
           dataIndex: 'linkedIn',
           key: 'linkedIn',
         },
-        {
-          title: 'Hired',
-          dataIndex: 'hired',
-          key: 'hired',
-        },
-        {
-          title: 'Date of Hire',
-          dataIndex: 'dateHired',
-          key: 'dateHired',
-        },{
-          title: 'Date of Departure',
-          dataIndex: 'dateDeparture',
-          key: 'dateDeparture',
-        },
+        // {
+        //   title: 'Hired',
+        //   dataIndex: 'hired',
+        //   key: 'hired',
+        // },
+        // {
+        //   title: 'Date of Hire',
+        //   dataIndex: 'dateHired',
+        //   key: 'dateHired',
+        // },{
+        //   title: 'Date of Departure',
+        //   dataIndex: 'dateDeparture',
+        //   key: 'dateDeparture',
+        // },
         {
           title: 'Action',
           key: 'action',

@@ -50,23 +50,6 @@ const CandidateForm = props => {
         })
     }
 
-    const handleInputChangeStartingDate = e => {
-        const dateToString =  e._d.toString()
-        
-        setValues({
-            ...values,
-            ...{ ["dateHired"]: dateToString }
-        })
-    }
-
-    const handleInputChangeEndDate = e => {
-        const dateToString =  e._d.toString()
-        
-        setValues({
-            ...values,
-            ...{ ["dateDeparture"]: dateToString }
-        })
-    }
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -364,7 +347,7 @@ const CandidateForm = props => {
                     onChange={handleInputChange}
                 />
             </Form.Item>          
-            <Form.Item
+            {/* <Form.Item
                 label="Hired"
                 name="hired"
                 rules={[
@@ -425,7 +408,7 @@ const CandidateForm = props => {
                         disabledDate={d => !d || d.isBefore(today)}
                     />
                 </Space>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item
                 wrapperCol={{
                     offset: 8,
