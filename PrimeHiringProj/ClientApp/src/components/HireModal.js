@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Modal, Button, Form, Space, DatePicker } from 'antd'
 import { connect } from 'react-redux'
 import { employ } from '../actions/employ'
-import moment from 'moment'
+import { checkIfDatesOverlap } from '../utilities/utilFunctions'
 
 
 function HireModal({selectedRows, ...restProps}) {
@@ -32,47 +32,10 @@ function HireModal({selectedRows, ...restProps}) {
         form.resetFields()
     }
 
-    function getDatesRange(startDateData, stopDateData) {
-        let dateArray = [];
-        let currentDate = moment(startDateData);
-        let stopDate = moment(stopDateData);
-        while (currentDate <= stopDate) {
-            dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
-            currentDate = moment(currentDate).add(1, 'days');
-        }
-        return dateArray;
-    }
-    function checkIfDatesOverlap(pendingEmployeesData, currentEmployeesData) {
-        for (let pendingEmployee of pendingEmployeesData) {
-            let potentialEmployeeName = pendingEmployee[0]
-            let potentialEmployeeStartDate = pendingEmployee[1]
-            let potentialEmployeeEndDate = pendingEmployee[2]
-            for (let employeeData of currentEmployeesData) {
-                for (let employeeTeamData of employeeData) {
-                    let employeeName = employeeTeamData[0]
-                    let employeeStartDate = employeeTeamData[1]
-                    let employeeEndDate = employeeTeamData[2]
-                    if (potentialEmployeeName === employeeName) {
-                        if (getDatesRange(potentialEmployeeStartDate, potentialEmployeeEndDate)
-                            .some(date => getDatesRange(employeeStartDate, employeeEndDate).includes(date))) {
-                                Modal.warn({
-                                    content: `Unsuccessfully employed the candidate(s). Can't hire ${employeeName} from ${employeeStartDate} to ${employeeEndDate}
-                                    because that candidate is already employed on another team in that timeframe.`
-                                  })
-                                return true
-                            }
-                    }
-                }
-            }
-        }
-    }
-
 
     const handleOk = () => {
         let values1 = [values]
-        console.log(values)
         if (!values.length) {
-            console.log(values)
             return Modal.warn({
                 content: `Please select the candidate(s) and the dates of hire and departure.`
             })
@@ -82,13 +45,17 @@ function HireModal({selectedRows, ...restProps}) {
                 content: `Please fill out all the boxes.`
               })
         }
-        else if (checkIfDatesOverlap(values, restProps.employees)) return setValues([])
+        else if (checkIfDatesOverlap(values, restProps.employees)) {
+            
+            return form.resetFields()
+        }
         
         else {
             restProps.employ(restProps.employees, values1)
             Modal.success({
                 content: 'Successfully employed the candidate(s).'
             })
+            form.resetFields()
             setIsModalVisible(false)}
     }
 
