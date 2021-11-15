@@ -347,68 +347,6 @@ const CandidateForm = props => {
                     onChange={handleInputChange}
                 />
             </Form.Item>          
-            {/* <Form.Item
-                label="Hired"
-                name="hired"
-                rules={[
-                    {
-                    required: false,
-                    message: "Please input the candidate's status.",
-                    },
-                    {
-                    max: 100,
-                    message: 'Too many characters used!',
-                    },
-                ]}
-            >
-                <Radio.Group name="hired" onChange={handleInputChange}>
-                    <Radio value="yes" name="hired">Yes</Radio>
-                    <Radio value="no" name="hired">No</Radio>
-                </Radio.Group>
-            </Form.Item>
-            <Form.Item
-                label="Date of Hire"
-                name="dateHired"
-                rules={[
-                    {
-                    required: false,
-                    message: "Please input the date of hire.",
-                    },
-                    {
-                    max: 100,
-                    message: 'Too many characters used!',
-                    },
-                ]}
-            >
-              
-                <Space direction="vertical">
-                    <DatePicker 
-                        onChange={handleInputChangeStartingDate}
-                        disabledDate={d => !d || d.isBefore(today)}
-                    />
-                </Space>
-            </Form.Item>
-            <Form.Item
-                label="Date of Departure"
-                name="dateDeparture"
-                rules={[
-                    {
-                    required: false,
-                    message: "Please input the date of departure.",
-                    },
-                    {
-                    max: 100,
-                    message: 'Too many characters used!',
-                    },
-                ]}
-            >
-                <Space direction="vertical">
-                    <DatePicker 
-                        onChange={handleInputChangeEndDate}
-                        disabledDate={d => !d || d.isBefore(today)}
-                    />
-                </Space>
-            </Form.Item> */}
             <Form.Item
                 wrapperCol={{
                     offset: 8,
