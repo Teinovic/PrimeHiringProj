@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 import 'antd/dist/antd.css'
@@ -8,9 +8,6 @@ import 'antd/dist/antd.css'
 
 
 const Employees = (props) => {
-    for (let array in props.employees) {
-
-    }
 
     console.log(props.employees)
     const columns = [
@@ -36,14 +33,12 @@ const Employees = (props) => {
             {props.employees.map((item) => {
                 let obj = []
                 for (let i of item) {
-                    console.log(i)
                     obj.push({
                         fullName: i[0],
                         dateHired: i[1],
                         dateDeparture: i[2]
                     })
                 }
-                console.log(obj)
                 return <Table dataSource={obj} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
             })}
           {/* <Table dataSource={[{
