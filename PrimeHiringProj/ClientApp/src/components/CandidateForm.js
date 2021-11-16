@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Button, Modal, Radio, DatePicker, Space, InputNumber } from 'antd'
+import { Form, Input, Button, Modal, Radio, InputNumber } from 'antd'
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux'
 import * as actions from '../actions/candidate'
@@ -101,7 +101,7 @@ const CandidateForm = props => {
 
     return (
         <>
-        <div ref={props.refProp}></div>
+        <h2 style={{textAlign: 'center'}} ref={props.refProp}>Add a candidate / update the existing candidate info</h2>
          {/* had to add the <div> DOM element for the scroll to work when the update button is clicked, doesn't work with ant design <Form> component */}
         <Form
             form={form}

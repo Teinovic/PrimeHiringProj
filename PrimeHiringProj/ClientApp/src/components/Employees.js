@@ -41,11 +41,6 @@ const Employees = (props) => {
                 }
                 return <Table dataSource={obj} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
             })}
-          {/* <Table dataSource={[{
-              fullName: 'Brrr',
-              dateHired: '1',
-              dateDeparture: '1'
-        }]} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/> */}
         </>
     )
 } 
