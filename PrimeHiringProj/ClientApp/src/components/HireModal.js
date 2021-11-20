@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { Modal, Button, Form, Space, DatePicker } from 'antd'
 import { connect } from 'react-redux'
-import { employ } from '../actions/employ'
+import * as apiActions from '../actions/devTeam'
 import { checkIfDatesOverlap } from '../utilities/utilFunctions'
+import { useHistory } from "react-router-dom"
+
 
 
 function HireModal({selectedRows, ...restProps}) {
@@ -10,14 +12,11 @@ function HireModal({selectedRows, ...restProps}) {
     const [isModalVisible, setIsModalVisible] = useState(false)
     let today = new Date()
     const [values, setValues] = useState([])
-    console.log(values, 'PLSWORK')
     const { RangePicker } = DatePicker
-    console.log(restProps, 'propsies')
+    let history = useHistory()
 
 
-    const handleInputChangeRange = (date, dateString, fullName) => {
-        console.log(date, 'aaaaa', dateString);
-        console.log(fullName);
+    const handleInputChangeRange = (dateString, fullName) => {
         setValues([
             ...values,
             ...[[fullName, ...dateString]]
@@ -34,7 +33,23 @@ function HireModal({selectedRows, ...restProps}) {
 
 
     const handleOk = () => {
-        let values1 = [values]
+        let teamMembersNames = ''
+        let teamMembersHireDates = ''
+        let teamMembersLeaveDates = ''
+
+        const valuesToSend = {
+            teamMembersNames: teamMembersNames,
+            teamMembersHireDates: teamMembersHireDates,
+            teamMembersLeaveDates: teamMembersLeaveDates,
+        }
+        // let values1 = [values]
+        for (let element in values) {
+            teamMembersNames += element[0]
+            teamMembersHireDates += element[1]
+            teamMembersLeaveDates += element[2]
+        }
+        console.log(restProps)
+
         if (!values.length) {
             return Modal.warn({
                 content: `Please select the candidate(s) and the dates of hire and departure.`
@@ -45,18 +60,22 @@ function HireModal({selectedRows, ...restProps}) {
                 content: `Please fill out all the boxes.`
               })
         }
-        else if (checkIfDatesOverlap(values, restProps.employees)) {
-            
-            return form.resetFields()
-        }
+        // else if (checkIfDatesOverlap(values, restProps.devTeam.devTeam)) {            
+        //     return form.resetFields()
+        // }
         
         else {
-            restProps.employ(restProps.employees, values1)
-            Modal.success({
-                content: 'Successfully employed the candidate(s).'
-            })
+            restProps.createDevTeam(valuesToSend, () => Modal.success(
+                {
+                    content: 'Successfully employed the candidate(s).'
+                }
+              )
+            )
             form.resetFields()
-            setIsModalVisible(false)}
+            setIsModalVisible(false)
+            history.push("/Employees")
+        }
+
     }
 
     const onFinish = () => {
@@ -88,7 +107,7 @@ function HireModal({selectedRows, ...restProps}) {
             
                 <Form labelCol={{ xs: { span: 6 } }} wrapperCol={{ xs: { span: 12 } }} form={form} onFinish={onFinish} scrollToFirstError>
                 {selectedRows.map((element, key) =>
-                    <>  
+                    <div>  
                         <h3>{element.fullName}</h3>
                         <Form.Item
                             label="Timerange of hire"
@@ -111,7 +130,7 @@ function HireModal({selectedRows, ...restProps}) {
                                 />
                             </Space>
                         </Form.Item>
-                    </>
+                    </div>
                 )}
                 </Form>
             
@@ -123,11 +142,13 @@ function HireModal({selectedRows, ...restProps}) {
 const mapStateToProps = state => ({
     candidateList: state.candidateList.list,
     currentId: state.currentId,
-    employees: state.employees
+    devTeam: state.devTeam
 })
 
 const mapActionToProps = {
-    employ
+    fetchAllDevTeams: apiActions.fetchAll,
+    createDevTeam: apiActions.create,
+    deleteDevTeam: apiActions.Delete
 }
 
 export default connect(mapStateToProps, mapActionToProps)((HireModal));

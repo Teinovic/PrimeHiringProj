@@ -14,35 +14,32 @@ namespace PrimeHiringProj.Models
 
         [Column(TypeName="nvarchar(100)")]
         public string fullName { get; set; }
-        public int mobile { get; set; }
+        
+        [Column(TypeName = "nvarchar(100)")]
+        public string mobile { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
         public string location { get; set; }
         
-        [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "nvarchar(200)")]
         public string profilePicture { get; set; }
-        public int pricePerHour { get; set; }
+        
+        [Column(TypeName = "nvarchar(4)")]
+        public string pricePerHour { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
         public string technology { get; set; }
 
         [Column(TypeName = "nvarchar(300)")]
         public string description { get; set; }
-        public int yearsOfExperience { get; set; }
+
+        [Column(TypeName = "nvarchar(2)")]
+        public string yearsOfExperience { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
         public string nativeLanguage { get; set; }
 
-        [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "nvarchar(200)")]
         public string linkedIn { get; set; }
-
-        [Column(TypeName = "nvarchar(100)")]
-        public string hired { get; set; }
-
-        [Column(TypeName = "nvarchar(100)")]
-        public string dateHired { get; set; }
-
-        [Column(TypeName = "nvarchar(100)")]
-        public string dateDeparture { get; set; }
     }
 }

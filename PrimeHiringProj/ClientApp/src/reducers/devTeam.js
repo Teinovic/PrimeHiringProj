@@ -1,30 +1,30 @@
-import { ACTION_TYPES } from '../actions/candidate'
+import { ACTION_TYPES } from "../actions/devTeam"
 
 const initialState = {
-    list: []
+    devTeam: []
 }
 
-export const candidateList = (state=initialState, action) => {
-    switch (action.type) {
+export const devTeam = (state = initialState, { type, payload }) => {
+    switch (type) {
         case ACTION_TYPES.FETCH_ALL:
             return {
                 ...state,
-                list: [...action.payload]
+                devTeam: [...payload]
             }  
         case ACTION_TYPES.CREATE:
             return {
                 ...state,
-                list: [...state.list, action.payload]
+                devTeam: [...state.devTeam, payload]
             }  
         case ACTION_TYPES.UPDATE:
             return {
                 ...state,
-                list: state.list.map(x => x.id === action.payload.id ? action.payload : x)
+                devTeam: state.devTeam.map(x => x.id === payload.id ? payload : x)
             }  
         case ACTION_TYPES.DELETE:
             return {
                 ...state,
-                list: state.list.filter(x => x !== action.payload)
+                devTeam: state.devTeam.filter(x => x !== payload)
         }  
         default:
             return state

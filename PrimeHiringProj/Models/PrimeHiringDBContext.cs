@@ -13,5 +13,7 @@ namespace PrimeHiringProj.Models
 
         }
         public DbSet<Candidate> Candidates { get; set; }
+
+        public DbSet<DevTeam> DevTeams { get; set; }
     }
 }

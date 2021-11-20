@@ -1,7 +1,9 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'antd'
+import { Table, Space } from 'antd'
 import 'antd/dist/antd.css'
+import { fetchAll } from '../actions/devTeam'
+
 
 
 
@@ -9,7 +11,10 @@ import 'antd/dist/antd.css'
 
 const Employees = (props) => {
 
-    console.log(props.employees)
+    useEffect(() => {
+        props.fetchAllDevTeams()
+    }, [])
+
     const columns = [
         {
             title: 'Full Name',
@@ -25,12 +30,27 @@ const Employees = (props) => {
             title: 'Date of Departure',
             dataIndex: 'dateDeparture',
             key: 'dateDeparture'
-        }
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (record) => { 
+              return (
+                <Space size="middle">
+                  <a 
+                    // onClick={() => {onDelete(record.id)}}
+                >Delete team</a>
+                </Space>
+            
+              )
+            }
+          }
     ]
 
     return (
         <>
-            {props.employees.map((item) => {
+            <div>table gon b here</div>
+            {/* {props.employees.map((item) => {
                 let obj = []
                 for (let i of item) {
                     obj.push({
@@ -40,15 +60,19 @@ const Employees = (props) => {
                     })
                 }
                 return <Table dataSource={obj} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
-            })}
+            })} */}
         </>
     )
 } 
 
-const mapStateToProps = state => {
-    return {employees: state.employees}
+const mapStateToProps = state => ({
+    devTeam: state.devTeam
+})
+
+const mapActionToProps = {
+    fetchAllDevTeams: fetchAll
 }
 
 
 
-export default connect(mapStateToProps)((Employees));
+export default connect(mapStateToProps, mapActionToProps)((Employees));

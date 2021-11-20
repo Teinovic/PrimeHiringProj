@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrimeHiringProj.Models;
 
 namespace PrimeHiringProj.Migrations
 {
     [DbContext(typeof(PrimeHiringDBContext))]
-    partial class PrimeHiringDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211117123452_ModelFieldsStrings")]
+    partial class ModelFieldsStrings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,27 +60,6 @@ namespace PrimeHiringProj.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Candidates");
-                });
-
-            modelBuilder.Entity("PrimeHiringProj.Models.DevTeam", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("TeamMembersHireDates")
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("TeamMembersLeaveDates")
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("TeamMembersNames")
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("DevTeams");
                 });
 #pragma warning restore 612, 618
         }

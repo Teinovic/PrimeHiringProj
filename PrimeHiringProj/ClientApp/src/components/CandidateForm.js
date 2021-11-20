@@ -16,17 +16,12 @@ const initialFieldValues = {
     description: '',
     yearsOfExperience: '',
     nativeLanguage: '',
-    linkedIn: '',
-    dateDeparture: '',
-    dateHired: '',
-    hired: ''
+    linkedIn: ''
 }
 
 const CandidateForm = props => {
     const [form] = Form.useForm();
     const [values, setValues] = useState(initialFieldValues)
-    let today = new Date()
-    console.log(props)
     
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -102,7 +97,6 @@ const CandidateForm = props => {
     return (
         <>
         <h2 style={{textAlign: 'center'}} ref={props.refProp}>Add a candidate / update the existing candidate info</h2>
-         {/* had to add the <div> DOM element for the scroll to work when the update button is clicked, doesn't work with ant design <Form> component */}
         <Form
             form={form}
             name="basic"

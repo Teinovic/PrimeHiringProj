@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { candidateList } from './candidate'
 import { currentId } from './currentId'
-import { employees } from './employees'
+import { devTeam } from './devTeam'
 
 export const reducers = combineReducers({
     candidateList,
     currentId,
-    employees
+    devTeam
 })

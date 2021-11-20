@@ -8,17 +8,11 @@ export const ACTION_TYPES = {
     FETCH_ALL: 'FETCH_ALL'
 }
 
-const formatData = data => ({
-    ...data,
-    mobile: parseInt(data.mobile ? data.mobile : 0),
-    pricePerHour: parseInt(data.pricePerHour ? data.pricePerHour : 0),
-    yearsOfExperience: parseInt(data.yearsOfExperience ? data.yearsOfExperience: 0)
-})
 
 export const fetchAll = () => dispatch => {
     api.candidate().fetchAll()
         .then(response => {
-            dispatch({
+            dispatch ({
                 type: ACTION_TYPES.FETCH_ALL,
                 payload: response.data
             })
@@ -29,10 +23,9 @@ export const fetchAll = () => dispatch => {
         )
 }
 
-export const create = (data, onSuccess) => async dispatch => {
-    data = await formatData(data)
+export const create = (data, onSuccess) => dispatch => {
     api.candidate().create(data).then(res => {
-        dispatch({
+        dispatch ({
             type: ACTION_TYPES.CREATE,
             payload: res.data
         })
@@ -45,7 +38,6 @@ export const create = (data, onSuccess) => async dispatch => {
 }
 
 export const update = (id, data, onSuccess) => dispatch => {
-    data = formatData(data)
     api.candidate().update(id, data).then(res => {
         dispatch({
             type: ACTION_TYPES.UPDATE,
