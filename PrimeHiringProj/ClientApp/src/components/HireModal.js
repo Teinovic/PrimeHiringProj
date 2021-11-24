@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import * as apiActions from '../actions/devTeam'
 import { checkIfDatesOverlap } from '../utilities/utilFunctions'
 import { useHistory } from "react-router-dom"
+import { continueStatement } from '@babel/types'
 
 
 
@@ -14,14 +15,16 @@ function HireModal({selectedRows, ...restProps}) {
     const [values, setValues] = useState([])
     const { RangePicker } = DatePicker
     let history = useHistory()
+    console.log(selectedRows)
 
-
-    const handleInputChangeRange = (dateString, fullName) => {
+    const handleInputChangeRange = (date, dateString, fullName) => {
+        //date unused but should stay as a param 
         setValues([
             ...values,
             ...[[fullName, ...dateString]]
         ])
     }
+    console.log(values)
 
 
     const showModal = () => setIsModalVisible(true)
@@ -33,22 +36,23 @@ function HireModal({selectedRows, ...restProps}) {
 
 
     const handleOk = () => {
-        let teamMembersNames = ''
-        let teamMembersHireDates = ''
-        let teamMembersLeaveDates = ''
 
         const valuesToSend = {
-            teamMembersNames: teamMembersNames,
-            teamMembersHireDates: teamMembersHireDates,
-            teamMembersLeaveDates: teamMembersLeaveDates,
+            teamMembersNames: '',
+            teamMembersHireDates: '',
+            teamMembersLeaveDates: '',
         }
         // let values1 = [values]
-        for (let element in values) {
-            teamMembersNames += element[0]
-            teamMembersHireDates += element[1]
-            teamMembersLeaveDates += element[2]
+        console.log(values)
+        for (let arr of values) {
+            valuesToSend.teamMembersNames += arr[0] + ','
+            valuesToSend.teamMembersHireDates += arr[1] + ','
+            valuesToSend.teamMembersLeaveDates += arr[2] + ','
         }
-        console.log(restProps)
+
+
+        console.log(valuesToSend)
+        console.log(restProps, 'logogogo')
 
         if (!values.length) {
             return Modal.warn({
@@ -107,7 +111,7 @@ function HireModal({selectedRows, ...restProps}) {
             
                 <Form labelCol={{ xs: { span: 6 } }} wrapperCol={{ xs: { span: 12 } }} form={form} onFinish={onFinish} scrollToFirstError>
                 {selectedRows.map((element, key) =>
-                    <div>  
+                    <div key={element.id}>  
                         <h3>{element.fullName}</h3>
                         <Form.Item
                             label="Timerange of hire"
@@ -142,7 +146,7 @@ function HireModal({selectedRows, ...restProps}) {
 const mapStateToProps = state => ({
     candidateList: state.candidateList.list,
     currentId: state.currentId,
-    devTeam: state.devTeam
+    devTeam: state.devTeam.devTeamList
 })
 
 const mapActionToProps = {

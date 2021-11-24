@@ -32,6 +32,7 @@ export const fetchAll = () => async dispatch => {
 export const create = (data, onSuccess) => async dispatch => {
     try {
         const response = await devTeam().create(data)
+        console.log(data)
         dispatch({
             type: ACTION_TYPES.CREATE,
             payload: response.data
@@ -64,6 +65,7 @@ export const Delete = (id, onSuccess) => async dispatch => {
             type: ACTION_TYPES.DELETE,
             payload: id
         })
+        onSuccess()
     } catch (error) {
         console.error(error)
     }

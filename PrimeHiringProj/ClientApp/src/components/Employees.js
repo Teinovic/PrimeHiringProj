@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
-import { Table, Space } from 'antd'
+import { Table, Space, Modal } from 'antd'
 import 'antd/dist/antd.css'
-import { fetchAll } from '../actions/devTeam'
+import { fetchAll, Delete } from '../actions/devTeam'
 
 
 
@@ -10,11 +10,38 @@ import { fetchAll } from '../actions/devTeam'
 
 
 const Employees = (props) => {
+    const [forceRerender, setForceRerender] = useState(1)
+    const { confirm } = Modal
 
     useEffect(() => {
         props.fetchAllDevTeams()
-    }, [])
+    }, [forceRerender])
+    
+    console.log(props)
 
+    function onDelete(id) {
+        confirm({
+         title: 'Are you sure delete this team?',
+         content: 'This will permanently delete all the team info.',
+         okText: 'Yes',
+         okType: 'danger',
+         cancelText: 'No',
+         async onOk() {
+           await props.deleteDevTeam(id, () => {
+             Modal.success({
+               content: 'Successfully deleted the team.'
+             })
+             setForceRerender(forceRerender + 1)
+             }
+           )
+           
+         },
+         onCancel() {
+           console.log('Cancel');
+         },
+       });
+     }
+    
     const columns = [
         {
             title: 'Full Name',
@@ -31,36 +58,41 @@ const Employees = (props) => {
             dataIndex: 'dateDeparture',
             key: 'dateDeparture'
         },
-        {
-            title: 'Action',
-            key: 'action',
-            render: (record) => { 
-              return (
-                <Space size="middle">
-                  <a 
-                    // onClick={() => {onDelete(record.id)}}
-                >Delete team</a>
-                </Space>
-            
-              )
-            }
-          }
     ]
 
     return (
         <>
-            <div>table gon b here</div>
-            {/* {props.employees.map((item) => {
+            {props.devTeam.devTeamList.map((item, key) => {
                 let obj = []
-                for (let i of item) {
-                    obj.push({
-                        fullName: i[0],
-                        dateHired: i[1],
-                        dateDeparture: i[2]
-                    })
-                }
-                return <Table dataSource={obj} columns={columns} style={{ padding: '0 50px', marginTop: '30px' }}/>
-            })} */}
+                console.log(item) 
+                let namesArr = item.teamMembersNames.split(',')
+                let datesHired = item.teamMembersHireDates.split(',')
+                let datesDeparture = item.teamMembersLeaveDates.split(',')
+                for (let j = 0; j < namesArr.length; j++) {
+                    if (namesArr[j] && datesHired && datesDeparture[j])
+                        obj.push({
+                            id: item.id,
+                            fullName: namesArr[j],
+                            dateHired: datesHired[j],
+                            dateDeparture: datesDeparture[j]
+                        })
+                }  
+                if (item.teamMembersNames=== '' ) return 
+
+                return <Table 
+                            dataSource={obj} 
+                            columns={columns} 
+                            style={{ padding: '0 50px', marginTop: '30px' }}
+                            footer={() => 
+                                <a 
+                                onClick={() => {onDelete(item.id)}}
+                                >
+                                    Delete team
+                                </a>
+                            }
+                            
+                        />
+            })}
         </>
     )
 } 
@@ -70,7 +102,8 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = {
-    fetchAllDevTeams: fetchAll
+    fetchAllDevTeams: fetchAll,
+    deleteDevTeam: Delete
 }
 
 
